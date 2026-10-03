@@ -1,1 +1,1 @@
-link:https://mchang51.github.io/webclass/
+link: https://mchang51.github.io/webclass/
