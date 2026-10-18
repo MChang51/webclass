@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 3 — Navigation Bar</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #f7f5ef; color: #242424; font-family: Georgia, "Times New Roman", serif; }
+    .page { width: min(760px, calc(100% - 40px)); margin: 72px auto; padding: 44px; background: #fff; box-shadow: 0 12px 35px rgba(0, 0, 0, .12); }
+    h1 { margin: 0 0 12px; color: #247226; font-size: 2.2rem; }
+    .instructions { margin-bottom: 32px; color: #666; font-family: Arial, sans-serif; font-size: .94rem; }
+
+    /* An unordered list used as a navigation bar. */
+    nav ul { display: flex; margin: 0; padding: 0; list-style: none; background: #159316; }
+    nav li { flex: 1; }
+    nav a { display: block; padding: 16px 12px; color: white; text-align: center; text-decoration: none; font-size: 1.08rem; font-weight: bold; transition: background-color .18s ease; }
+
+    /* Normal, mouse-over, and click states use three different colours. */
+    nav a:link, nav a:visited { background: #159316; }
+    nav a:hover, nav a:focus-visible { background: #25211f; }
+    nav a:active { background: #c64232; }
+    .home a { text-decoration: underline wavy white 2px; text-underline-offset: 5px; }
+
+    .menu-heading { margin: 42px 0 14px; color: #247226; font-family: Arial, sans-serif; font-size: .78rem; font-weight: bold; letter-spacing: .14em; text-transform: uppercase; }
+    .desserts { margin: 0; padding-left: 26px; }
+    .desserts > li { margin: 9px 0; }
+    .desserts ul { margin: 9px 0; padding-left: 27px; list-style-type: circle; }
+    .desserts ul li { margin: 5px 0; }
+
+    @media (max-width: 540px) {
+      .page { width: calc(100% - 28px); margin: 28px auto; padding: 26px 18px; }
+      nav ul { flex-direction: column; }
+      nav a { padding: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Task 3</h1>
+    <nav aria-label="Main navigation">
+      <ul>
+        <li class="home"><a href="exercise_08.html">Home</a></li>
+        <li><a href="news/index.html">News</a></li>
+        <li><a href="contact/index.html">Contact</a></li>
+        <li><a href="schedule/index.html">Schedule</a></li>
+        <li><a href="about/index.html">About</a></li>
+      </ul>
+    </nav>
+    <section id="home" aria-labelledby="dessert-title">
+      <ul class="desserts">
+        <li>Mousses</li>
+        <li>Pastries
+          <ul>
+            <li>Croissant</li>
+            <li>Mille-feuille</li>
+            <li>Palmier</li>
+            <li>Profiteroles</li>
+          </ul>
+        </li>
+        <li>Tarts</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

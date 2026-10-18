@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<!-- Tokyo -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo — A City of Contrasts</title>
+    <style>
+        :root {
+            --paper: #f4f1e9;
+            --ink: #20201f;
+            --muted: #77736e;
+            --accent: #9b4d4a;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 78px; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        a { color: inherit; }
+
+        .topbar {
+            position: sticky;
+            z-index: 10;
+            top: 0;
+            height: 66px;
+            padding: 0 7.7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(248, 246, 240, .96);
+            border-bottom: 1px solid rgba(32, 32, 31, .12);
+            backdrop-filter: blur(10px);
+        }
+        .brand {
+            text-decoration: none;
+            font: 700 24px/1 Georgia, 'Times New Roman', serif;
+            letter-spacing: -.06em;
+        }
+        .nav { display: flex; gap: clamp(20px, 4vw, 48px); }
+        .nav a {
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            transition: color .2s ease;
+        }
+        .nav a:hover, .nav a:focus-visible { color: var(--accent); }
+
+        .hero {
+            min-height: 440px;
+            display: flex;
+            align-items: center;
+            padding: 70px 7.7%;
+            color: #fffaf1;
+            background:
+                linear-gradient(90deg, rgba(10, 16, 24, .82) 0%, rgba(10, 16, 24, .55) 48%, rgba(10, 16, 24, .12) 100%),
+                url('https://images.unsplash.com/photo-1540959733332-eab4deaced47?auto=format&fit=crop&w=2200&q=85') center 52% / cover;
+        }
+        .hero-copy { max-width: 630px; }
+        .eyebrow {
+            margin: 0 0 20px;
+            color: var(--accent);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+        .hero .eyebrow { color: #e4c0b8; }
+        h1, h2 {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: 400;
+            letter-spacing: -.045em;
+        }
+        h1 { max-width: 570px; font-size: clamp(56px, 8vw, 100px); line-height: .91; }
+        .hero-rule { width: 42px; height: 1px; margin: 26px 0 19px; background: #fffaf1; }
+        .hero-copy > p:last-child { max-width: 400px; margin: 0; color: #eee9e3; font-size: 14px; line-height: 1.8; }
+
+        main { width: min(1120px, 84.6%); margin: 0 auto; }
+        section { padding: 76px 0 72px; scroll-margin-top: 66px; }
+        .section-heading { margin-bottom: 30px; }
+        h2 { font-size: clamp(34px, 4.6vw, 48px); line-height: 1.08; }
+        .discover-grid, .neighborhood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+        .copy h3 {
+            margin: 0 0 18px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .17em;
+            text-transform: uppercase;
+        }
+        .copy p { margin: 0 0 14px; color: #625f5a; font-size: 13px; line-height: 1.9; }
+        .copy .quote { margin-top: 18px; font: italic 15px/1.7 Georgia, 'Times New Roman', serif; }
+        .feature-image {
+            display: block;
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+        .neighborhood-grid { grid-template-columns: .95fr 1.05fr; }
+        .neighborhood-grid .feature-image { height: 250px; }
+        .gallery-section { padding-top: 56px; }
+        .gallery-title-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+        .gallery-title-row .eyebrow { margin-bottom: 14px; }
+        .gallery-note { max-width: 235px; margin: 0 0 5px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .photo-card { position: relative; overflow: hidden; aspect-ratio: 1 / 1.08; border-radius: 3px; background: #d5d0c6; }
+        .photo-card img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease, filter .5s ease; }
+        .photo-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            padding: 22px;
+            color: white;
+            background: linear-gradient(transparent 35%, rgba(12, 16, 21, .78));
+            opacity: 0;
+            transition: opacity .35s ease;
+        }
+        .photo-overlay span { font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+        .photo-overlay strong { margin-top: 7px; font: 26px Georgia, 'Times New Roman', serif; }
+        .photo-card:hover img, .photo-card:focus-within img { transform: scale(1.06); filter: saturate(.8); }
+        .photo-card:hover .photo-overlay, .photo-card:focus-within .photo-overlay { opacity: 1; }
+        .caption { margin: 10px 0 0 3px; color: var(--muted); font-size: 10px; }
+        footer { padding: 25px 7.7%; border-top: 1px solid rgba(32, 32, 31, .14); color: var(--muted); font-size: 10px; letter-spacing: .12em; text-align: center; text-transform: uppercase; }
+
+        @media (max-width: 700px) {
+            .topbar { height: 60px; padding: 0 6%; }
+            .brand { font-size: 21px; }
+            .nav { gap: 14px; }
+            .nav a { font-size: 8px; letter-spacing: .1em; }
+            .hero { min-height: 470px; padding: 60px 8%; background-position: 58% center; }
+            main { width: 84%; }
+            section { padding: 58px 0; }
+            .discover-grid, .neighborhood-grid { grid-template-columns: 1fr; gap: 24px; }
+            .discover-grid .feature-image { order: -1; }
+            .feature-image, .neighborhood-grid .feature-image { height: 230px; }
+            .gallery-title-row { align-items: start; flex-direction: column; gap: 10px; }
+            .gallery { gap: 9px; }
+            .photo-card { aspect-ratio: 1 / 1.25; }
+            .photo-overlay { padding: 12px; }
+            .photo-overlay strong { font-size: 18px; }
+        }
+        @media (max-width: 430px) {
+            .topbar { padding: 0 5%; }
+            .nav { gap: 9px; }
+            .nav a { font-size: 7px; }
+            .gallery { grid-template-columns: 1fr; }
+            .photo-card { aspect-ratio: 1.35 / 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#top" aria-label="Tokyo home">TOKYO.</a>
+        <nav class="nav" aria-label="Main navigation">
+            <a href="#discover">Discover</a>
+            <a href="#neighborhoods">Neighborhoods</a>
+            <a href="#gallery">Gallery</a>
+        </nav>
+    </header>
+
+    <div class="hero" id="top">
+        <div class="hero-copy">
+            <p class="eyebrow">A visual journey through Japan</p>
+            <h1>A City of<br>Contrasts.</h1>
+            <div class="hero-rule"></div>
+            <p>Quiet temples, electric streets, and little moments in between. Discover a different side of Tokyo.</p>
+        </div>
+    </div>
+
+    <main>
+        <section id="discover" aria-labelledby="discover-title">
+            <div class="section-heading">
+                <p class="eyebrow">01 / Discover</p>
+                <h2 id="discover-title">Where tradition meets tomorrow.</h2>
+            </div>
+            <div class="discover-grid">
+                <div class="copy">
+                    <h3>More than a destination</h3>
+                    <p>Tokyo is a city that never stops surprising you. One moment, you are surrounded by bright signs and busy crossings. A few streets away, you might discover a quiet shrine hidden between modern buildings.</p>
+                    <p>What makes Tokyo special is the way old and new exist side by side. Every neighborhood has its own rhythm, atmosphere, and story to tell.</p>
+                    <p class="quote">“The best way to explore Tokyo is to get a little lost.”</p>
+                </div>
+                <img class="feature-image" src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=85" alt="Colorful Tokyo streets glowing after dark">
+            </div>
+        </section>
+
+        <section id="neighborhoods" aria-labelledby="neighborhoods-title">
+            <div class="section-heading">
+                <p class="eyebrow">02 / Neighborhoods</p>
+                <h2 id="neighborhoods-title">Slow down. Look closer.</h2>
+            </div>
+            <div class="neighborhood-grid">
+                <img class="feature-image" src="https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?auto=format&fit=crop&w=1200&q=85" alt="Traditional wooden street in Kyoto at dusk">
+                <div class="copy">
+                    <h3>The quieter side</h3>
+                    <p>Beyond the crowded stations and famous landmarks, Tokyo is full of peaceful corners. Small cafés, traditional shops, and narrow streets invite visitors to take their time.</p>
+                    <p>Spend an afternoon walking without a strict plan. Notice the details: wooden doors, warm lanterns, tiny gardens, and the everyday life happening all around you.</p>
+                    <p>Sometimes the most memorable places are the ones you never planned to visit.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-section" id="gallery" aria-labelledby="gallery-title">
+            <div class="gallery-title-row">
+                <div>
+                    <p class="eyebrow">03 / Photo journal</p>
+                    <h2 id="gallery-title">Tokyo in three frames.</h2>
+                </div>
+                <p class="gallery-note">Move your mouse over each photograph to reveal the story behind the image.</p>
+            </div>
+            <div class="gallery">
+                <article class="photo-card" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=900&q=85" alt="Tokyo city lights and busy streets at night">
+                    <div class="photo-overlay"><span>01 / After dark</span><strong>City lights</strong></div>
+                </article>
+                <article class="photo-card" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=900&q=85" alt="Japanese pagoda framed by trees at sunset">
+                    <div class="photo-overlay"><span>02 / Stillness</span><strong>A quiet hour</strong></div>
+                </article>
+                <article class="photo-card" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=900&q=85" alt="A glowing red lantern on a Japanese street">
+                    <div class="photo-overlay"><span>03 / Little details</span><strong>Lantern glow</strong></div>
+                </article>
+            </div>
+            <p class="caption">Hover over a photo to see the fade-in overlay effect.</p>
+        </section>
+    </main>
+
+    <footer>Tokyo, Japan &nbsp; · &nbsp; A visual journey</footer>
+</body>
+</html>
