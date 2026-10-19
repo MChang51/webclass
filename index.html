@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;display=swap"
       rel="stylesheet"
     />
     <style>
@@ -342,13 +342,13 @@
         transform: translateY(-5px) rotate(-0.4deg);
         box-shadow: 0 18px 30px rgba(126, 71, 55, 0.17);
       }
-      .assignment:nth-child(1) {
+      .assignment:nth-child(3n + 1) {
         background: var(--pink);
       }
-      .assignment:nth-child(2) {
+      .assignment:nth-child(3n + 2) {
         background: var(--blue);
       }
-      .assignment:nth-child(3) {
+      .assignment:nth-child(3n) {
         background: var(--yellow);
       }
       .assignment-top {
@@ -448,6 +448,62 @@
         box-shadow:
           0 16px 0 var(--blue),
           0 32px 0 var(--coral);
+      }
+      .city-art {
+        overflow: hidden;
+        border-bottom: 3px solid var(--ink);
+      }
+      .city-art:before {
+        content: "";
+        position: absolute;
+        right: 7px;
+        bottom: 0;
+        width: 25px;
+        height: 65px;
+        border: 2px solid var(--ink);
+        background: var(--coral);
+        box-shadow:
+          -29px 20px 0 -2px var(--yellow),
+          -51px 8px 0 -2px var(--paper);
+      }
+      .city-art:after {
+        content: "";
+        position: absolute;
+        right: 15px;
+        bottom: 13px;
+        width: 6px;
+        height: 7px;
+        background: var(--yellow);
+        box-shadow:
+          0 -16px 0 var(--yellow),
+          -29px 8px 0 var(--ink),
+          -51px 1px 0 var(--coral),
+          -51px 17px 0 var(--coral);
+      }
+      .table-art {
+        border: 2px solid var(--ink);
+        border-radius: 7px;
+        background:
+          linear-gradient(var(--ink), var(--ink)) 0 25% / 100% 2px no-repeat,
+          linear-gradient(var(--ink), var(--ink)) 27% 0 / 2px 100% no-repeat,
+          repeating-linear-gradient(
+            to bottom,
+            var(--paper) 0 18px,
+            var(--ink) 18px 20px
+          );
+        transform: rotate(5deg);
+      }
+      .table-art:before {
+        content: "";
+        position: absolute;
+        left: 30px;
+        top: 27px;
+        width: 21px;
+        height: 15px;
+        background: var(--pink);
+        box-shadow:
+          23px 20px 0 var(--blue),
+          0 40px 0 var(--yellow);
       }
       .process-wrap {
         background: #f7e9d8;
@@ -697,10 +753,10 @@
       </section>
       <div class="shell stat-strip" aria-label="Portfolio statistics">
         <div class="stat">
-          <strong>06</strong><span>Assignments published</span>
+          <strong>08</strong><span>Assignments published</span>
         </div>
         <div class="stat">
-          <strong>03</strong><span>Weeks of web practice</span>
+          <strong>05</strong><span>Weeks of web practice</span>
         </div>
         <div class="stat">
           <strong>∞</strong><span>Things still to explore</span>
@@ -745,6 +801,28 @@
               with a recipe.
             </p>
             <span class="card-art list-art" aria-hidden="true"></span
+          ></a
+          ><a class="assignment" href="W6/exercise_11.html"
+            ><div class="assignment-top">
+              <span class="week">Week 06</span><span class="arrow">↗</span>
+            </div>
+            <h3>Tokyo City Guide</h3>
+            <p>
+              A responsive travel page combining a hero image, flexible grids,
+              and interactive photo overlays.
+            </p>
+            <span class="card-art city-art" aria-hidden="true"></span
+          ></a
+          ><a class="assignment" href="W7/exercise_13.html"
+            ><div class="assignment-top">
+              <span class="week">Week 07</span><span class="arrow">↗</span>
+            </div>
+            <h3>Class Schedule</h3>
+            <p>
+              A colour-coded timetable built with semantic table elements and
+              merged time slots.
+            </p>
+            <span class="card-art table-art" aria-hidden="true"></span
           ></a>
         </div>
       </section>
