@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,600&amp;family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
       rel="stylesheet"
     />
     <style>
@@ -696,6 +696,428 @@
           grid-column: 1/-1;
         }
       }
+
+      /* Vintage halftone editorial theme */
+      :root {
+        --cream: #f8f4ec;
+        --paper: #fffaf1;
+        --ink: #535650;
+        --coral: #c88b98;
+        --coral-dark: #9c7180;
+        --pink: #ead0d4;
+        --blue: #cfdee4;
+        --yellow: #e2e5c6;
+        --line: #7a7d75;
+        --shadow: 8px 8px 0 rgba(93, 96, 89, 0.11);
+      }
+
+      body {
+        font-family: "Manrope", Arial, sans-serif;
+        background-color: var(--cream);
+        background-image: radial-gradient(
+          circle,
+          rgba(83, 86, 80, 0.06) 0 0.8px,
+          transparent 0.95px
+        );
+        background-size: 7px 7px;
+      }
+
+      .announcement {
+        color: var(--paper);
+        background-color: var(--coral-dark);
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 250, 241, 0.18) 0 0.9px,
+          transparent 1px
+        );
+        background-size: 7px 7px;
+        border-bottom: 1px solid var(--ink);
+      }
+
+      .topbar {
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .brand,
+      h1,
+      .browser-content h2,
+      .stat strong,
+      .section-heading h2,
+      .assignment h3,
+      .process-intro h2,
+      .note h3,
+      .footer-brand {
+        font-family: "Bodoni Moda", Georgia, serif;
+      }
+
+      .brand {
+        font-size: 1.72rem;
+        font-style: italic;
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        color: var(--paper);
+        background: var(--coral);
+        border: 1px solid var(--ink);
+        border-radius: 50% 42% 50% 44%;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+
+      .nav-link {
+        border: 1px solid transparent;
+        border-radius: 0;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--ink);
+        background: var(--pink);
+        border-color: var(--ink);
+      }
+
+      .eyebrow {
+        color: var(--coral-dark);
+        font-weight: 500;
+        letter-spacing: 0.12em;
+      }
+
+      h1 {
+        font-size: clamp(3.35rem, 7vw, 6rem);
+        font-weight: 400;
+        letter-spacing: -0.06em;
+        line-height: 0.92;
+      }
+
+      h1 em,
+      .process-intro em {
+        color: var(--coral);
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      .intro {
+        max-width: 540px;
+        font-size: 1rem;
+      }
+
+      .button {
+        color: var(--ink);
+        background: var(--pink);
+        border: 1.5px solid var(--ink);
+        border-radius: 0;
+        box-shadow: 5px 5px 0 var(--ink);
+      }
+
+      .button:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 var(--ink);
+      }
+
+      .text-link {
+        border-bottom: 2px solid var(--coral);
+      }
+
+      .browser-card {
+        isolation: isolate;
+        overflow: hidden;
+        color: var(--paper);
+        background: var(--blue);
+        border: 2px solid var(--ink);
+        border-radius: 2px;
+        box-shadow: 11px 11px 0 rgba(156, 113, 128, 0.45);
+        transform: rotate(1deg);
+      }
+
+      .browser-card::before,
+      .browser-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+      }
+
+      .browser-card::before {
+        background: url("assets/halftone-botanical.png") center 48% / cover
+          no-repeat;
+        filter: saturate(0.72) brightness(1.08);
+        opacity: 0.84;
+      }
+
+      .browser-card::after {
+        z-index: -1;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 250, 241, 0.88) 0%,
+          rgba(231, 216, 222, 0.66) 56%,
+          rgba(207, 222, 228, 0.25) 100%
+        );
+      }
+
+      .browser-top,
+      .browser-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .browser-top {
+        border-bottom-color: rgba(83, 86, 80, 0.35);
+      }
+
+      .dot {
+        background: var(--coral);
+        border: 1px solid rgba(83, 86, 80, 0.45);
+      }
+
+      .dot:nth-child(2) {
+        background: var(--yellow);
+      }
+
+      .dot:nth-child(3) {
+        background: var(--blue);
+      }
+
+      .address {
+        color: var(--ink);
+        background: rgba(255, 250, 241, 0.62);
+        border: 1px solid rgba(83, 86, 80, 0.28);
+        border-radius: 0;
+      }
+
+      .mini-label {
+        color: var(--ink);
+        background: var(--yellow);
+        border: 1px solid var(--ink);
+        border-radius: 0;
+      }
+
+      .browser-content h2 {
+        color: #765864;
+        font-size: 2.45rem;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 0.9;
+        text-shadow: 1px 1px 0 rgba(255, 250, 241, 0.9);
+      }
+
+      .browser-content p {
+        max-width: 275px;
+        color: var(--ink);
+      }
+
+      .code-window {
+        color: var(--paper);
+        background-color: rgba(103, 101, 111, 0.66);
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 250, 241, 0.16) 0 0.65px,
+          transparent 0.8px
+        );
+        background-size: 5px 5px;
+        border: 1px solid rgba(247, 241, 226, 0.45);
+        border-radius: 0;
+      }
+
+      .pink-code {
+        color: #e9a5ad;
+      }
+
+      .blue-code {
+        color: #bcd4dc;
+      }
+
+      .yellow-code {
+        color: #e5e9b7;
+      }
+
+      .sticker {
+        z-index: 2;
+        color: var(--ink);
+        background-color: var(--yellow);
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 250, 241, 0.42) 0 1px,
+          transparent 1.2px
+        );
+        background-size: 6px 6px;
+        border-color: var(--ink);
+        border-radius: 50%;
+      }
+
+      .stat-strip {
+        background: rgba(247, 241, 226, 0.45);
+        border-color: var(--ink);
+      }
+
+      .stat {
+        border-color: var(--ink);
+      }
+
+      .stat strong {
+        color: var(--coral);
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      .section-heading h2,
+      .process-intro h2 {
+        font-weight: 400;
+      }
+
+      .assignment {
+        border: 1.5px solid var(--ink);
+        border-radius: 1px;
+        box-shadow: var(--shadow);
+      }
+
+      .assignment::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image: radial-gradient(
+          circle,
+          rgba(83, 86, 80, 0.1) 0 0.8px,
+          transparent 0.95px
+        );
+        background-size: 7px 7px;
+        mix-blend-mode: multiply;
+      }
+
+      .assignment-top,
+      .card-art {
+        position: relative;
+        z-index: 1;
+      }
+
+      .assignment:nth-child(3n + 1) {
+        background: var(--blue);
+      }
+
+      .assignment:nth-child(3n + 2) {
+        color: var(--ink);
+        background: var(--pink);
+      }
+
+      .assignment:nth-child(3n) {
+        background: var(--yellow);
+      }
+
+      .assignment:nth-child(3n + 2) .week {
+        color: var(--ink);
+        background: rgba(247, 241, 226, 0.82);
+      }
+
+      .assignment:hover {
+        transform: translate(-3px, -3px) rotate(-0.3deg);
+        box-shadow: 12px 12px 0 rgba(93, 96, 89, 0.15);
+      }
+
+      .assignment h3 {
+        font-size: 2.05rem;
+        font-weight: 400;
+        letter-spacing: -0.04em;
+      }
+
+      .week,
+      .tag {
+        border: 1px solid currentColor;
+        border-radius: 0;
+      }
+
+      .arrow {
+        color: var(--paper);
+        background: var(--ink);
+        border: 1px solid var(--paper);
+      }
+
+      .process-wrap {
+        background-color: var(--blue);
+        background-image: radial-gradient(
+          circle,
+          rgba(83, 86, 80, 0.08) 0 0.8px,
+          transparent 1px
+        );
+        background-size: 7px 7px;
+        border-color: var(--ink);
+      }
+
+      .process-list {
+        gap: 0;
+        background: var(--ink);
+        border-color: var(--ink);
+        border-radius: 1px;
+      }
+
+      .process-item {
+        background: rgba(247, 241, 226, 0.93);
+        border-bottom: 1px solid var(--ink);
+      }
+
+      .process-item:last-child {
+        border-bottom: 0;
+      }
+
+      .number {
+        color: var(--coral);
+      }
+
+      .tag {
+        color: var(--coral-dark);
+        background: var(--yellow);
+      }
+
+      .note {
+        position: relative;
+        overflow: hidden;
+        background: var(--paper);
+        border-color: var(--ink);
+        border-radius: 1px;
+        box-shadow: 7px 7px 0 rgba(93, 96, 89, 0.09);
+      }
+
+      .note:nth-child(2) {
+        color: var(--ink);
+        background-color: var(--pink);
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 250, 241, 0.35) 0 0.8px,
+          transparent 1px
+        );
+        background-size: 7px 7px;
+        border-color: var(--ink);
+      }
+
+      .note h3 {
+        font-size: 1.85rem;
+        font-weight: 400;
+        font-style: italic;
+      }
+
+      footer {
+        color: var(--paper);
+        background-color: var(--coral-dark);
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 250, 241, 0.12) 0 0.9px,
+          transparent 1.05px
+        );
+        background-size: 7px 7px;
+        border-top: 2px solid var(--ink);
+      }
+
+      .footer-brand {
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      .footer-label {
+        color: #d9e0be;
+      }
     </style>
   </head>
   <body>
@@ -806,10 +1228,10 @@
             ><div class="assignment-top">
               <span class="week">Week 06</span><span class="arrow">↗</span>
             </div>
-            <h3>Tokyo City Guide</h3>
+            <h3>Tokyo Travel Planner</h3>
             <p>
-              A responsive travel page combining a hero image, flexible grids,
-              and interactive photo overlays.
+              A responsive Tokyo guide with a three-day itinerary, travel
+              budget tables, and an interactive photo gallery.
             </p>
             <span class="card-art city-art" aria-hidden="true"></span
           ></a
