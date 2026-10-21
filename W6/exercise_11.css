@@ -52,7 +52,7 @@ a { color: inherit; }
     color: #fffaf1;
     background:
         linear-gradient(90deg, rgba(20, 17, 20, .82) 0%, rgba(20, 17, 20, .52) 48%, rgba(20, 17, 20, .12) 100%),
-        url('https://images.unsplash.com/photo-1784275908382-b008e3b6a3d6?auto=format&fit=crop&w=1800&h=1000&q=75') center 45% / cover;
+        url('https://images.unsplash.com/photo-1470004914212-05527e49370b?auto=format&fit=crop&w=1800&h=1000&q=80') center 45% / cover;
 }
 .hero-copy { max-width: 630px; }
 .eyebrow {
