@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 15</title>
+    <style>
+        body {
+            margin: 4px;
+            color: #000000;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .demo {
+            width: 340px;
+        }
+
+        .greeting {
+            margin: 14px 0 26px;
+            font-size: 24px;
+            line-height: 1.2;
+        }
+
+        .message {
+            margin: 0 0 36px;
+            font-size: 24px;
+            line-height: 1.2;
+            transition: color 0.15s ease, font-size 0.15s ease;
+        }
+
+        .message.changed {
+            color: blue;
+            font-size: 36px;
+        }
+
+        .photo {
+            display: block;
+            width: 320px;
+            height: 316px;
+            object-fit: cover;
+            box-sizing: content-box;
+        }
+
+        .photo.has-border {
+            border: 6px double #222222;
+        }
+
+        .controls {
+            display: flex;
+            gap: 7px;
+        }
+
+        button {
+            padding: 2px 10px;
+            font: 20px Arial, Helvetica, sans-serif;
+            line-height: 1.25;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main class="demo">
+        <h2 class="greeting">Hello!</h2>
+        <h2 id="message" class="message">Nice to meet you!</h2>
+
+        <img id="photo" class="photo" src="images/lena.png" alt="Lena wearing a hat">
+
+        <div class="controls">
+            <button id="borderButton" type="button">Add Border</button>
+            <button id="colorButton" type="button">Change Color</button>
+        </div>
+    </main>
+
+    <script>
+        const photo = document.getElementById("photo");
+        const message = document.getElementById("message");
+
+        document.getElementById("borderButton").addEventListener("click", () => {
+            photo.classList.add("has-border");
+        });
+
+        document.getElementById("colorButton").addEventListener("click", () => {
+            message.classList.add("changed");
+        });
+    </script>
+</body>
+</html>
