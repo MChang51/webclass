@@ -1,0 +1,247 @@
+:root {
+    --paper:  #f7f5f0;
+    --forest: #7a8b7b;
+    --sage:   #9caf88;
+    --earth:  #8c7a6b;
+    --clay:   #d49b7a;
+    --ink:    #3d4a3e;
+    --line:   #d8d0c5;
+    --white:  #fffdf8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif Traditional Chinese', serif;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+img { display: block; }
+a   { color: var(--forest); }
+button, input, select { font: inherit; }
+h1, h2, h3 { color: var(--forest); margin-top: 0; }
+
+/* ── Navigation ── */
+.site-header {
+    background: var(--forest);
+    padding: 14px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.main-nav { display: flex; gap: 20px; }
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 4px 2px;
+    transition: color 0.2s;
+}
+
+.main-nav a:hover,
+.main-nav a.current {
+    color: var(--clay);
+}
+
+/* ── Buttons ── */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--forest);
+    color: white;
+    border: 2px solid var(--forest);
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.button:hover {
+    background: #5d6c5e;
+}
+
+.btn-secondary {
+    background: var(--earth);
+    border-color: var(--earth);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--forest);
+    border-color: var(--forest);
+}
+
+.btn-ghost:hover {
+    background: var(--sage);
+    color: white;
+}
+
+/* ── Layout ── */
+.inner-page {
+    margin: 0 auto;
+    padding: 40px 6% 60px;
+}
+
+.page-intro {
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+}
+
+/* ── Timer page ── */
+.companion-area {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.main-animal {
+    height: 220px;
+    width: auto;
+    margin: 8px auto;
+    object-fit: contain;
+}
+
+.animal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.animal-button {
+    padding: 8px 16px;
+    background: var(--white);
+    color: var(--ink);
+    border: 2px solid var(--line);
+    border-radius: 5px;
+}
+
+.animal-button.selected {
+    background: var(--clay);
+    color: white;
+    border-color: #b77c5e;
+}
+
+.timer-card {
+    background: var(--white);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+}
+
+.status-text {
+    color: var(--earth);
+    min-height: 2em;
+    margin-bottom: 12px;
+}
+
+.timer-card label {
+    font-weight: bold;
+    color: var(--earth);
+}
+
+.timer-card select {
+    margin-left: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--white);
+}
+
+.timer-display {
+    font-size: 72px;
+    color: var(--forest);
+    margin: 16px 0 10px;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Tables ── */
+.table-wrap { overflow-x: auto; }
+
+.mission-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.mission-table th,
+.mission-table td {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    text-align: left;
+}
+
+.mission-table thead {
+    background: var(--forest);
+    color: white;
+}
+
+.mission-table tbody tr:nth-child(even) {
+    background: #f3f1eb;
+}
+
+/* ── Animals grid ── */
+.animal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.animal-card {
+    background: var(--white);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.animal-card img {
+    height: 160px;
+    width: auto;
+    margin: 0 auto 12px;
+    object-fit: contain;
+}
+
+.animal-card h2 {
+    margin-bottom: 4px;
+    font-size: 22px;
+}
+
+.animal-card ul {
+    text-align: left;
+    padding-left: 20px;
+    margin: 0;
+    font-size: 15px;
+    color: #555;
+}
+
+.animal-card ul li {
+    margin-bottom: 4px;
+}
+
+/* ── Footer ── */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--earth);
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+}
+
+.site-footer a { color: var(--earth); }

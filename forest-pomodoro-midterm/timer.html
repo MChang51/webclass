@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>森林樹洞番茄鐘 蕃茄鐘</title>
+    <link rel="icon" href="images/dog-focus.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html">森林樹洞番茄鐘</a>
+        <nav class="main-nav">
+            <a href="index.html">首頁</a>
+            <a class="current" href="timer.html">番茄鐘</a>
+            <a href="animals.html">動物夥伴</a>
+            <a href="tips.html">專注秘笈</a>
+        </nav>
+    </header>
+
+    <main class="inner-page">
+
+        <!-- 動物展示區 -->
+        <section class="companion-area">
+            <img id="animalImage" class="main-animal" src="images/dog-focus.png" alt="柴犬波波戴著眼鏡認真讀書">
+            <div class="animal-buttons">
+                <button id="dogButton" class="animal-button selected" type="button">波波</button>
+                <button id="catButton" class="animal-button" type="button">米米</button>
+                <button id="rabbitButton" class="animal-button" type="button">球球</button>
+                <button id="sheepButton" class="animal-button" type="button">多多</button>
+            </div>
+
+        </section>
+
+        <!-- 計時器區 -->
+        <section class="timer-card">
+            <p id="statusText" class="status-text">準備好了嗎？選一個適合你的專注時長。</p>
+
+            <label for="durationSelect">專注時長：</label>
+            <select id="durationSelect">
+                <option value="5">5 秒（快速測試）</option>
+                <option value="600">10 分鐘</option>
+                <option value="1500" selected>25 分鐘</option>
+                <option value="2700">45 分鐘</option>
+            </select>
+
+            <h2 id="timerDisplay" class="timer-display">25:00</h2>
+
+            <div class="timer-controls">
+                <button id="startButton" class="button" type="button">開始專注</button>
+                <button id="pauseButton" class="button btn-secondary" type="button">暫停</button>
+                <button id="resetButton" class="button btn-ghost" type="button">重設</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>森林樹洞番茄鐘 ・ <a href="index.html">回首頁</a></p>
+    </footer>
+    <script src="script.js" ></script>
+</body>
+</html>
