@@ -80,7 +80,7 @@ function startTimer() {
 
     currentState = "focus";
     updateAnimal();
-    statusText.textContent = "專注中，心流運轉中...";
+    statusText.textContent = "專注中...";
 
     timerId = setInterval(function () {
         remainingSeconds = remainingSeconds - 1;
