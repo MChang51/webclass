@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arc Study</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 28px;
+            background-color: #d9d7d1;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 22px;
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .controls button {
+            background-color: #f2efe7;
+            color: #164d47;
+            border: 2px solid #164d47;
+            border-radius: 2px;
+            padding: 10px 18px;
+            font-size: 15px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .controls button:hover {
+            background-color: #164d47;
+            color: #f2efe7;
+            transform: translateY(-1px);
+        }
+
+        .controls button.active {
+            background-color: #164d47;
+            color: #f2efe7;
+            box-shadow: 0 4px 10px rgba(22, 77, 71, 0.28);
+        }
+
+        canvas {
+            display: block;
+            width: min(100%, 820px);
+            height: auto;
+            margin: 0 auto;
+            background-color: #f2efe7;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body onload="drawAll()">
+    <!-- 控制按鈕區 -->
+    <div class="controls">
+        <button id="btn1" type="button" onclick="drawPic1()">HALF CIRCLE</button>
+        <button id="btn2" type="button" onclick="drawPic2()">QUARTER SECTORS</button>
+        <button id="btn3" type="button" onclick="drawPic3()">THREE QUARTERS</button>
+        <button id="btn4" type="button" onclick="drawPic4()">OPEN ARCS</button>
+        <button id="btnAll" type="button" onclick="drawAll()">SHOW ALL</button>
+    </div>
+
+    <!-- 畫布 -->
+    <canvas id="myCanvas" width="1000" height="1200">
+        您的瀏覽器不支援 Canvas。
+    </canvas>
+
+    <script>
+        // 色彩設定
+        var paper = '#f2efe7';
+        var green = '#164d47';
+        var red = '#c94c3d';
+        var coral = '#df7768';
+        var peach = '#edc1a8';
+        var cream = '#f2dfad';
+        var darkRed = '#98342e';
+        var outline = '#e5dfd3';
+
+        // 取得畫布與繪圖上下文
+        function getCanvasContext() {
+            var canvas = document.getElementById('myCanvas');
+            return {
+                canvas: canvas,
+                ctx: canvas.getContext('2d')
+            };
+        }
+
+        // 切換按鈕的選取狀態
+        function setActiveButton(index) {
+            var buttons = document.querySelectorAll('.controls button');
+            buttons.forEach(function(btn, i) {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // 繪製海報底圖與標題、註腳
+        function drawBase(subtitle) {
+            var env = getCanvasContext();
+            var canvas = env.canvas;
+            var ctx = env.ctx;
+
+            // 清除畫布並填上紙張底色
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = paper;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 海報標題
+            ctx.fillStyle = green;
+            ctx.textAlign = 'left';
+            ctx.font = 'bold 20px Arial';
+            ctx.fillText('FORM / COLOUR / ANGLE', 48, 58);
+
+            ctx.font = 'bold 72px Arial';
+            ctx.fillText('ARC STUDY', 48, 148);
+
+            ctx.font = 'bold 23px Arial';
+            ctx.fillText(subtitle || 'One circle. Many possibilities.', 50, 198);
+
+            // 四個面板的外框參考線（保持版面協調）
+            ctx.strokeStyle = outline;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(48, 238, 452, 392);
+            ctx.strokeRect(500, 238, 452, 392);
+            ctx.strokeRect(48, 630, 452, 392);
+            ctx.strokeRect(500, 630, 452, 392);
+
+            // 底部註解
+            ctx.fillStyle = green;
+            ctx.font = 'bold 21px Arial';
+            ctx.fillText('CIRCULAR THINKING', 62, 1092);
+
+            ctx.font = '18px Arial';
+            ctx.fillText('Canvas geometry / beginPath · arc · fill · stroke', 62, 1132);
+        }
+
+        // 圖片 1 獨立繪製函式：180 度半圓
+        function drawPanel1(ctx) {
+            ctx.fillStyle = peach;
+            ctx.fillRect(48, 238, 452, 392);
+
+            ctx.beginPath();
+            ctx.arc(274, 495, 145, Math.PI, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fillStyle = red;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(129, 521);
+            ctx.lineTo(419, 521);
+            ctx.strokeStyle = red;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.font = 'bold 17px Arial';
+            ctx.fillStyle = darkRed;
+            ctx.fillText('01 / HALF CIRCLE / 180°', 74, 599);
+        }
+
+        // 圖片 2 獨立繪製函式：90 度扇形
+        function drawPanel2(ctx) {
+            ctx.fillStyle = green;
+            ctx.fillRect(500, 238, 452, 392);
+
+            ctx.beginPath();
+            ctx.moveTo(596, 330);
+            ctx.lineTo(844, 330);
+            ctx.arc(596, 330, 248, 0, Math.PI / 2, false);
+            ctx.closePath();
+            ctx.fillStyle = cream;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(854, 560);
+            ctx.lineTo(748, 560);
+            ctx.arc(854, 560, 106, Math.PI, Math.PI * 1.5, false);
+            ctx.closePath();
+            ctx.fillStyle = coral;
+            ctx.fill();
+
+            ctx.font = 'bold 17px Arial';
+            ctx.fillStyle = paper;
+            ctx.fillText('02 / QUARTER SECTORS / 90°', 526, 599);
+        }
+
+        // 圖片 3 獨立繪製函式：270 度與 90 度扇形組合
+        function drawPanel3(ctx) {
+            ctx.fillStyle = coral;
+            ctx.fillRect(48, 630, 452, 392);
+
+            ctx.beginPath();
+            ctx.moveTo(275, 812);
+            ctx.arc(275, 812, 140, 0, Math.PI * 1.5, false);
+            ctx.closePath();
+            ctx.fillStyle = paper;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(306, 772);
+            ctx.lineTo(306, 678);
+            ctx.arc(306, 772, 94, Math.PI * 1.5, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fillStyle = darkRed;
+            ctx.fill();
+
+            ctx.font = 'bold 17px Arial';
+            ctx.fillStyle = green;
+            ctx.fillText('03 / THREE QUARTERS / 270°', 74, 991);
+        }
+
+        // 圖片 4 獨立繪製函式：120 度圓弧
+        function drawPanel4(ctx) {
+            ctx.fillStyle = cream;
+            ctx.fillRect(500, 630, 452, 392);
+
+            ctx.beginPath();
+            ctx.arc(726, 885, 132, Math.PI * 1.17, Math.PI * 1.83, false);
+            ctx.strokeStyle = green;
+            ctx.lineWidth = 34;
+            ctx.lineCap = 'butt';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(726, 890, 80, Math.PI * 1.17, Math.PI * 1.83, false);
+            ctx.strokeStyle = red;
+            ctx.lineWidth = 24;
+            ctx.stroke();
+
+            ctx.font = 'bold 17px Arial';
+            ctx.fillStyle = green;
+            ctx.fillText('04 / OPEN ARCS / 120°', 526, 991);
+        }
+
+        // 切換至圖片 1
+        function drawPic1() {
+            var env = getCanvasContext();
+            drawBase('One circle. Many possibilities. — 01 / HALF CIRCLE');
+            drawPanel1(env.ctx);
+            setActiveButton(0);
+        }
+
+        // 切換至圖片 2
+        function drawPic2() {
+            var env = getCanvasContext();
+            drawBase('One circle. Many possibilities. — 02 / QUARTER SECTORS');
+            drawPanel2(env.ctx);
+            setActiveButton(1);
+        }
+
+        // 切換至圖片 3
+        function drawPic3() {
+            var env = getCanvasContext();
+            drawBase('One circle. Many possibilities. — 03 / THREE QUARTERS');
+            drawPanel3(env.ctx);
+            setActiveButton(2);
+        }
+
+        // 切換至圖片 4
+        function drawPic4() {
+            var env = getCanvasContext();
+            drawBase('One circle. Many possibilities. — 04 / OPEN ARCS');
+            drawPanel4(env.ctx);
+            setActiveButton(3);
+        }
+
+        // 顯示全部四張圖片
+        function drawAll() {
+            var env = getCanvasContext();
+            drawBase('One circle. Many possibilities.');
+            drawPanel1(env.ctx);
+            drawPanel2(env.ctx);
+            drawPanel3(env.ctx);
+            drawPanel4(env.ctx);
+            setActiveButton(4);
+        }
+
+        // 別名相容：支援多種函式名稱呼叫
+        var draw1 = drawPic1;
+        var draw2 = drawPic2;
+        var draw3 = drawPic3;
+        var draw4 = drawPic4;
+        var drawCircle = drawAll;
+    </script>
+</body>
+</html>

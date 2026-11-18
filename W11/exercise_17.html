@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Hour — Analog Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,600;0,6..96,700;1,6..96,600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0d1e34;
+            background: radial-gradient(circle at 35% 50%, #153252 0%, #0c1a2d 65%, #07101c 100%);
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 70px;
+            max-width: 1240px;
+            width: 100%;
+        }
+
+        .clock-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            display: block;
+            width: min(85vw, 540px);
+            height: auto;
+            aspect-ratio: 1 / 1;
+            filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
+        }
+
+        .content {
+            max-width: 540px;
+            padding: 10px 0;
+        }
+
+        .title {
+            font-family: "Playfair Display", "Bodoni Moda", Georgia, serif;
+            font-size: 76px;
+            font-weight: 700;
+            line-height: 1.05;
+            margin: 0 0 16px 0;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #dbe4ee;
+            margin: 0 0 24px 0;
+            font-weight: 400;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn.active {
+            background-color: #f3ca85;
+            color: #2b1f15;
+            border: 1.5px solid #f3ca85;
+        }
+
+        .btn.inactive {
+            background: transparent;
+            color: #ffffff;
+            border: 1.5px solid rgba(255, 255, 255, 0.45);
+        }
+
+        .btn.inactive:hover {
+            border-color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.18);
+            margin: 0 0 28px 0;
+        }
+
+        .section-heading {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            color: #ffffff;
+        }
+
+        .instructions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 15.5px;
+            line-height: 1.6;
+            color: #d2dde8;
+        }
+
+        .instructions li {
+            margin-bottom: 20px;
+            padding-left: 24px;
+            text-indent: -24px;
+        }
+
+        .instructions strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        @media (max-width: 980px) {
+            .container {
+                flex-direction: column;
+                gap: 40px;
+                text-align: center;
+            }
+            .title {
+                font-size: 56px;
+            }
+            .button-group {
+                justify-content: center;
+            }
+            .instructions {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clock-container">
+            <canvas id="clockCanvas" width="600" height="600">
+                Your browser does not support HTML5 Canvas.
+            </canvas>
+        </div>
+
+        <div class="content">
+            <h1 class="title">Blue Hour</h1>
+            <p class="subtitle">Draw an analog clock in HTML Canvas.</p>
+
+            <div class="button-group">
+                <button id="sampleBtn" class="btn inactive" onclick="setMode('sample')">Sample · 10:08:37</button>
+                <button id="liveBtn" class="btn active" onclick="setMode('live')">Live time</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2 class="section-heading">Canvas exercise</h2>
+
+            <ol class="instructions">
+                <li><strong>1. Draw the face.</strong> Use arc() and a radial gradient for the dial. Place Roman numerals at the four quarter hours.</li>
+                <li><strong>2. Draw 60 tick marks.</strong> Give every fifth mark extra length and weight. Keep the 48 marks between hours short and thin.</li>
+                <li><strong>3. Shape three hands.</strong> Draw a wide, faceted polygon for the hour hand and a narrower, longer polygon for the minute hand. Give the thin second hand a round counterweight.</li>
+                <li><strong>4. Make it run.</strong> Check your angles at 10:08:37, then draw the local time once a second. Show the same time as HH:MM:SS on the dial.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        var canvas = document.getElementById('clockCanvas');
+        var ctx = canvas.getContext('2d');
+        var currentMode = 'live'; // 預設啟動動態走時模式
+        var timerId = null;
+
+        function getChungyuanTime() {
+            var now = new Date();
+            try {
+                var formatter = new Intl.DateTimeFormat('en-US', {
+                    timeZone: 'Asia/Taipei',
+                    hour12: false,
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                });
+                var parts = formatter.formatToParts(now);
+                var h = 0, m = 0, s = 0;
+                for (var i = 0; i < parts.length; i++) {
+                    if (parts[i].type === 'hour') h = parseInt(parts[i].value, 10);
+                    if (parts[i].type === 'minute') m = parseInt(parts[i].value, 10);
+                    if (parts[i].type === 'second') s = parseInt(parts[i].value, 10);
+                }
+                if (h === 24) h = 0;
+                return { hours: h, minutes: m, seconds: s };
+            } catch (e) {
+                // 相容備案：直接以 UTC 偏移 +8 小時計算
+                var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                var cst = new Date(utc + (3600000 * 8));
+                return {
+                    hours: cst.getHours(),
+                    minutes: cst.getMinutes(),
+                    seconds: cst.getSeconds()
+                };
+            }
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            var sampleBtn = document.getElementById('sampleBtn');
+            var liveBtn = document.getElementById('liveBtn');
+
+            if (mode === 'sample') {
+                sampleBtn.className = 'btn active';
+                liveBtn.className = 'btn inactive';
+                if (timerId) {
+                    clearInterval(timerId);
+                    timerId = null;
+                }
+            } else {
+                sampleBtn.className = 'btn inactive';
+                liveBtn.className = 'btn active';
+                if (!timerId) {
+                    timerId = setInterval(updateClock, 250);
+                }
+            }
+            updateClock();
+        }
+
+        function updateClock() {
+            var hours, minutes, seconds;
+            if (currentMode === 'sample') {
+                hours = 10;
+                minutes = 8;
+                seconds = 37;
+            } else {
+                var cst = getChungyuanTime();
+                hours = cst.hours;
+                minutes = cst.minutes;
+                seconds = cst.seconds;
+            }
+            drawClock(hours, minutes, seconds);
+        }
+
+        function drawClock(hours, minutes, seconds) {
+            var width = canvas.width;
+            var height = canvas.height;
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.translate(width / 2, height / 2);
+            var radius = (Math.min(width, height) / 2) * 0.93;
+
+            // 1. Bezel (Rose-gold / copper metallic case)
+            drawBezel(ctx, radius);
+
+            // 2. Dial face with radial gradient
+            var dialRadius = radius * 0.915;
+            drawDial(ctx, dialRadius);
+
+            // 3. 60 Tick marks & circular track
+            drawTicks(ctx, dialRadius);
+
+            // 4. Digital time box (placed ABOVE VI)
+            drawDigitalBox(ctx, dialRadius, hours, minutes, seconds);
+
+            // 5. Roman numerals at four quarter hours (XII, III, VI, IX)
+            drawRomanNumerals(ctx, dialRadius);
+
+            // 6. Three hands (hour, minute, second with round counterweight)
+            drawHands(ctx, dialRadius, hours, minutes, seconds);
+
+            ctx.restore();
+        }
+
+        function drawBezel(ctx, radius) {
+            // Metallic copper / rose-gold outer ring
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+            var bezelGrad = ctx.createLinearGradient(-radius, -radius, radius, radius);
+            bezelGrad.addColorStop(0.0, '#edd1b4');
+            bezelGrad.addColorStop(0.2, '#d29867');
+            bezelGrad.addColorStop(0.45, '#8c4e28');
+            bezelGrad.addColorStop(0.7, '#d69e70');
+            bezelGrad.addColorStop(0.9, '#f3d8c2');
+            bezelGrad.addColorStop(1.0, '#9e5d34');
+            ctx.fillStyle = bezelGrad;
+            ctx.fill();
+
+            // Inner dark rim separating bezel and dial
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.915, 0, 2 * Math.PI);
+            ctx.fillStyle = '#08131e';
+            ctx.fill();
+        }
+
+        function drawDial(ctx, dialRadius) {
+            // Radial gradient dial
+            var dialGrad = ctx.createRadialGradient(0, -dialRadius * 0.08, dialRadius * 0.05, 0, 0, dialRadius);
+            dialGrad.addColorStop(0, '#285382');
+            dialGrad.addColorStop(0.35, '#1d4169');
+            dialGrad.addColorStop(0.75, '#11263f');
+            dialGrad.addColorStop(1, '#091523');
+
+            ctx.beginPath();
+            ctx.arc(0, 0, dialRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = dialGrad;
+            ctx.fill();
+        }
+
+        function drawTicks(ctx, dialRadius) {
+            var trackRadius = dialRadius * 0.88;
+
+            // Concentric track line
+            ctx.beginPath();
+            ctx.arc(0, 0, trackRadius, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // 60 tick marks
+            for (var i = 0; i < 60; i++) {
+                var angle = i * (Math.PI / 30);
+                ctx.save();
+                ctx.rotate(angle);
+                ctx.beginPath();
+
+                if (i % 5 === 0) {
+                    // Every fifth mark: extra length and weight (crosses track inward)
+                    ctx.moveTo(0, -dialRadius * 0.95);
+                    ctx.lineTo(0, -dialRadius * 0.81);
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 3;
+                } else {
+                    // 48 marks between hours: short and thin (starts at track outwards)
+                    ctx.moveTo(0, -dialRadius * 0.93);
+                    ctx.lineTo(0, -trackRadius);
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+                    ctx.lineWidth = 1.2;
+                }
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        function drawDigitalBox(ctx, dialRadius, hours, minutes, seconds) {
+            var pad = function(n) { return (n < 10 ? '0' : '') + n; };
+            var timeStr = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+
+            var boxW = dialRadius * 0.44;
+            var boxH = dialRadius * 0.125;
+            var boxY = dialRadius * 0.44; // Placed above VI
+
+            ctx.save();
+            // Background box
+            ctx.fillStyle = 'rgba(7, 18, 30, 0.85)';
+            ctx.fillRect(-boxW / 2, boxY, boxW, boxH);
+
+            // Border
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(-boxW / 2, boxY, boxW, boxH);
+
+            // Text
+            ctx.font = 'bold ' + Math.round(dialRadius * 0.082) + 'px "Courier New", Courier, monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(timeStr, 0, boxY + boxH / 2);
+            ctx.restore();
+        }
+
+        function drawRomanNumerals(ctx, dialRadius) {
+            ctx.font = 'bold ' + Math.round(dialRadius * 0.14) + 'px "Playfair Display", "Bodoni Moda", Georgia, serif';
+            ctx.fillStyle = '#f5efe6';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            var dist = dialRadius * 0.68;
+            ctx.fillText('XII', 0, -dist);
+            ctx.fillText('III', dist, 0);
+            ctx.fillText('VI', 0, dialRadius * 0.70); // Placed beneath the digital box
+            ctx.fillText('IX', -dist, 0);
+        }
+
+        function drawHands(ctx, dialRadius, hours, minutes, seconds) {
+            var sAngle = seconds * (Math.PI / 30);
+            var mAngle = (minutes + seconds / 60) * (Math.PI / 30);
+            var hAngle = ((hours % 12) + minutes / 60 + seconds / 3600) * (Math.PI / 6);
+
+            // --- 1. HOUR HAND (wide faceted polygon) ---
+            ctx.save();
+            ctx.rotate(hAngle);
+            var hLen = dialRadius * 0.52;
+            var hW = dialRadius * 0.125;
+            var hTail = dialRadius * 0.09;
+            var hShoulder = dialRadius * 0.14;
+
+            // Left facet (highlight gold)
+            ctx.beginPath();
+            ctx.moveTo(0, -hLen);
+            ctx.lineTo(-hW / 2, -hShoulder);
+            ctx.lineTo(-hW * 0.35, 0);
+            ctx.lineTo(0, hTail);
+            ctx.closePath();
+            ctx.fillStyle = '#f5cb88';
+            ctx.fill();
+
+            // Right facet (shadow bronze)
+            ctx.beginPath();
+            ctx.moveTo(0, -hLen);
+            ctx.lineTo(hW / 2, -hShoulder);
+            ctx.lineTo(hW * 0.35, 0);
+            ctx.lineTo(0, hTail);
+            ctx.closePath();
+            ctx.fillStyle = '#b77c38';
+            ctx.fill();
+            ctx.restore();
+
+            // --- 2. MINUTE HAND (narrower, longer faceted polygon) ---
+            ctx.save();
+            ctx.rotate(mAngle);
+            var mLen = dialRadius * 0.80;
+            var mW = dialRadius * 0.075;
+            var mTail = dialRadius * 0.08;
+            var mShoulder = dialRadius * 0.16;
+
+            // Left facet (bright white)
+            ctx.beginPath();
+            ctx.moveTo(0, -mLen);
+            ctx.lineTo(-mW / 2, -mShoulder);
+            ctx.lineTo(-mW * 0.35, 0);
+            ctx.lineTo(0, mTail);
+            ctx.closePath();
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            // Right facet (silver shadow)
+            ctx.beginPath();
+            ctx.moveTo(0, -mLen);
+            ctx.lineTo(mW / 2, -mShoulder);
+            ctx.lineTo(mW * 0.35, 0);
+            ctx.lineTo(0, mTail);
+            ctx.closePath();
+            ctx.fillStyle = '#9cb1c5';
+            ctx.fill();
+            ctx.restore();
+
+            // --- 3. SECOND HAND (thin line with round counterweight) ---
+            ctx.save();
+            ctx.rotate(sAngle);
+            var sLen = dialRadius * 0.87;
+            var sTail = dialRadius * 0.22;
+            var ringRadius = dialRadius * 0.045;
+            var ringPos = dialRadius * 0.14;
+
+            ctx.strokeStyle = '#e85c3f';
+            ctx.fillStyle = '#e85c3f';
+            ctx.lineWidth = 1.6;
+
+            // Forward needle
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -sLen);
+            ctx.stroke();
+
+            // Tail line
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, sTail);
+            ctx.stroke();
+
+            // Round counterweight ring along the tail
+            ctx.beginPath();
+            ctx.arc(0, ringPos, ringRadius, 0, 2 * Math.PI);
+            ctx.lineWidth = 2.2;
+            ctx.stroke();
+            ctx.restore();
+
+            // --- 4. CENTER HUB / CAP ---
+            ctx.beginPath();
+            ctx.arc(0, 0, dialRadius * 0.045, 0, 2 * Math.PI);
+            ctx.fillStyle = '#e2aa6a';
+            ctx.fill();
+            ctx.strokeStyle = '#8c4e28';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, dialRadius * 0.016, 0, 2 * Math.PI);
+            ctx.fillStyle = '#08121c';
+            ctx.fill();
+        }
+
+        // 預設啟動中原標準時間動態走時
+        updateClock();
+        timerId = setInterval(updateClock, 250);
+    </script>
+</body>
+</html>
